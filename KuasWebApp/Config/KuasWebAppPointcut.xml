@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:aop="http://www.springframework.net/aop">
+
+  <object id="debogLogInterceptor" type="KuasCore.Interceptors.DebogLogInterceptor" />
+
+  <object id="servicePointcut" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="Pattern" value="KuasCore.Services.Impl.*Service" />
+  </object>
+
+  <!--Watch out... the object id must be different from the last one and the before-->
+  <object id="UpdateCourseNameInterceptor" type="KuasCore.Interceptors.UpdateCourseNameInterceptor" />
+
+  <object id="servicePointcut_2" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="Pattern" value="KuasCore.Services.Impl.CourseService.GetCourseById" />
+    <!--to intercept the method .GetCourseById from the service file...-->
+  </object>
+
+  <object id="UpdateAllCourseNameInterceptor" type="KuasCore.Interceptors.UpdateAllCourseNameInterceptor" />
+
+  <object id="servicePointcut_3" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="Pattern" value="KuasCore.Services.Impl.CourseService.GetAllCourses" />
+  </object>
+
+  <aop:config>
+    <aop:advisor pointcut-ref="servicePointcut" advice-ref="debogLogInterceptor" />
+    <aop:advisor pointcut-ref="servicePointcut_2" advice-ref="UpdateCourseNameInterceptor" />
+    <aop:advisor pointcut-ref="servicePointcut_3" advice-ref="UpdateAllCourseNameInterceptor" />
+  </aop:config>
+</objects>
